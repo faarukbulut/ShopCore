@@ -1,14 +1,14 @@
 ﻿using Business.Abstract;
-using DataAccess.Repositories.Concrete;
+using DataAccess.Repositories.Abstract;
 using Entities.Concrete;
 
 namespace Business.Concrete
 {
     public class ProductManager : IProductService
     {
-        private readonly ProductRepository _productRepository;
+        private readonly IProductRepository _productRepository;
 
-        public ProductManager(ProductRepository productRepository)
+        public ProductManager(IProductRepository productRepository)
         {
             _productRepository = productRepository;
         }

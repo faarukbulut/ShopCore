@@ -1,40 +1,41 @@
 ﻿using Business.Abstract;
+using DataAccess.Repositories.Abstract;
 using Entities.Concrete;
 
 namespace Business.Concrete
 {
     public class OrderLineManager : IOrderLineService
     {
-        private readonly OrderLineManager _orderLineManager;
+        private readonly IOrderLineRepository _orderLineRepository;
 
-        public OrderLineManager(OrderLineManager orderLineManager)
+        public OrderLineManager(IOrderLineRepository orderLineRepository)
         {
-            _orderLineManager = orderLineManager;
+            _orderLineRepository = orderLineRepository;
         }
 
         public void Create(OrderLine entity)
         {
-            _orderLineManager.Create(entity);
+            _orderLineRepository.Create(entity);
         }
 
         public void Delete(OrderLine entity)
         {
-            _orderLineManager.Delete(entity);
+            _orderLineRepository.Delete(entity);
         }
 
         public List<OrderLine> GetAll()
         {
-            return _orderLineManager.GetAll().ToList();
+            return _orderLineRepository.GetAll().ToList();
         }
 
         public OrderLine GetByID(int id)
         {
-            return _orderLineManager.GetByID(id);
+            return _orderLineRepository.GetByID(id);
         }
 
         public void Update(OrderLine entity)
         {
-            _orderLineManager.Update(entity);
+            _orderLineRepository.Update(entity);
         }
     }
 }

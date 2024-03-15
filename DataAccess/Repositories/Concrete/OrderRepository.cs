@@ -6,5 +6,8 @@ namespace DataAccess.Repositories.Concrete
 {
     public class OrderRepository : GenericRepository<Order, Context>, IOrderRepository
     {
+        public OrderRepository(Context context) : base(context)
+        {
+        }
     }
 }

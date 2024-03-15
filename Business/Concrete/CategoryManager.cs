@@ -1,40 +1,41 @@
 ﻿using Business.Abstract;
+using DataAccess.Repositories.Abstract;
 using Entities.Concrete;
 
 namespace Business.Concrete
 {
     public class CategoryManager : ICategoryService
     {
-        private readonly CategoryManager _categoryManager;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public CategoryManager(CategoryManager categoryManager)
+        public CategoryManager(ICategoryRepository categoryRepository)
         {
-            _categoryManager = categoryManager;
+            _categoryRepository = categoryRepository;
         }
 
         public void Create(Category entity)
         {
-            _categoryManager.Create(entity);
+            _categoryRepository.Create(entity);
         }
 
         public void Delete(Category entity)
         {
-            _categoryManager.Delete(entity);
+            _categoryRepository.Delete(entity);
         }
 
         public List<Category> GetAll()
         {
-            return _categoryManager.GetAll().ToList();
+            return _categoryRepository.GetAll().ToList();
         }
 
         public Category GetByID(int id)
         {
-            return _categoryManager.GetByID(id);
+            return _categoryRepository.GetByID(id);
         }
 
         public void Update(Category entity)
         {
-            _categoryManager.Update(entity);
+            _categoryRepository.Update(entity);
         }
     }
 }

@@ -1,14 +1,14 @@
 ﻿using Business.Abstract;
-using DataAccess.Repositories.Concrete;
+using DataAccess.Repositories.Abstract;
 using Entities.Concrete;
 
 namespace Business.Concrete
 {
     public class OrderManager : IOrderService
     {
-        private readonly OrderRepository _orderRepository;
+        private readonly IOrderRepository _orderRepository;
 
-        public OrderManager(OrderRepository orderRepository)
+        public OrderManager(IOrderRepository orderRepository)
         {
             _orderRepository = orderRepository;
         }

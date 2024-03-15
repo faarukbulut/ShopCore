@@ -4,7 +4,10 @@ using Entities.Concrete;
 
 namespace DataAccess.Repositories.Concrete
 {
-    public class ProductRepository : GenericRepository<Product,Context>, IProductRepository
+    public class ProductRepository : GenericRepository<Product, Context>, IProductRepository
     {
+        public ProductRepository(Context context) : base(context)
+        {
+        }
     }
 }
