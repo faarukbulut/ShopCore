@@ -7,7 +7,7 @@ namespace DataAccess.Concrete
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("SQL BİLGİSİ");
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;database=ShopApp;integrated security=true");
         }
 
         public DbSet<Product> Products { get; set; }
