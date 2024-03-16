@@ -38,6 +38,9 @@ namespace WebUI.Controllers
 
             if (result.Succeeded)
             {
+                var tokenCode = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var callbackurl = Url.Action("ConfirmEmail", "Account", new { userID = user.Id, token = tokenCode });
+
                 return RedirectToAction("Login", "Account");
             }
 
@@ -58,6 +61,12 @@ namespace WebUI.Controllers
 
             if(user != null)
             {
+                if (!await _userManager.IsEmailConfirmedAsync(user))
+                {
+                    ModelState.AddModelError("", "Lütfen hesabınızı mail ile onaylayınız.");
+                    return View(p);
+                }
+
                 var result = await _signInManager.PasswordSignInAsync(p.Username, p.Password, true, false);
 
                 if (result.Succeeded)
@@ -75,5 +84,33 @@ namespace WebUI.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Default");
         }
+
+        public async Task<IActionResult> ConfirmEmail(string userID, string token)
+        {
+            if(string.IsNullOrEmpty(userID) || string.IsNullOrEmpty(token))
+            {
+                TempData["message"] = "Geçersiz kimlik bilgisi";
+                return View();
+            }
+
+            var user = await _userManager.FindByIdAsync(userID);
+
+            if(user == null)
+            {
+                TempData["message"] = "Geçersiz kimlik bilgisi";
+                return View();
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+
+            if (result.Succeeded)
+            {
+                return View();
+            }
+
+            return View();
+        }
+
+
     }
 }

@@ -37,7 +37,7 @@ builder.Services.Configure<IdentityOptions>(opt =>
     opt.User.RequireUniqueEmail = true; // Benzersiz bir mail adresi zorunluluðu
 
     opt.SignIn.RequireConfirmedPhoneNumber = false; // Telefon numrasý onay zorunluluðu
-    opt.SignIn.RequireConfirmedEmail = false; // Mail onay zorunluluðu
+    opt.SignIn.RequireConfirmedEmail = true; // Mail onay zorunluluðu
 });
 
 builder.Services.ConfigureApplicationCookie(opt =>
@@ -51,7 +51,8 @@ builder.Services.ConfigureApplicationCookie(opt =>
     opt.Cookie = new CookieBuilder
     {
         HttpOnly = true, // cookielerin scriptler tarafýndan okunmamasýný sadece http ile okunmasý saðlar. Güvenlik için önemlidir.
-        Name = ".ShopApp.Security.Cookie"
+        Name = ".ShopApp.Security.Cookie",
+        SameSite = SameSiteMode.Strict // baþka bir kullanýcýnýn ayný cookie ile iþlem yapamama potansiyeli.
     };
 
 });
