@@ -1,10 +1,26 @@
 ﻿@model List<Product>
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_DefaultLayout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@foreach(var item in Model){
-    <p>@item.Name</p>
-}
+<div class="row">
+    <div class="col-md-3">
+        <ul class="list-group">
+            <li class="list-group-item">Telefon</li>
+            <li class="list-group-item">Bilgisayar</li>
+            <li class="list-group-item">Giyim</li>
+        </ul>
+    </div>
+    <div class="col-md-9">
+        <partial name="_Slider" />
+
+        @foreach (var item in Model)
+        {
+            <p>@item.Name</p>
+        }
+    </div>
+</div>
+
+
 
