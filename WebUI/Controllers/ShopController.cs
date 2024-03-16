@@ -12,15 +12,29 @@ namespace WebUI.Controllers
             _productService = productService;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         public IActionResult List()
         {
             var values = _productService.GetAll();
             return View(values);
         }
+
+        public IActionResult Details(int id)
+        {
+            if(id == 0)
+            {
+                return NotFound();
+            }
+
+            var value = _productService.GetByID(id);
+
+            if(value == null)
+            {
+                return NotFound();
+            }
+
+            return View(value);
+        }
+
+
     }
 }
