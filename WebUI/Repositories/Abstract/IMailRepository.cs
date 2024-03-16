@@ -2,6 +2,6 @@
 {
     public interface IMailRepository
     {
-        void MailDogrulamaMailGonder(string ad, string email, string tokenLink);
+        void MailGonder(string ad, string email, string mailIcerik, string mailBaslik);
     }
 }

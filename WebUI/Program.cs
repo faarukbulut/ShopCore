@@ -25,7 +25,7 @@ builder.Services.AddDbContext<Context>();
 
 builder.Services.AddIdentity<AppUser, IdentityRole>()
     .AddEntityFrameworkStores<Context>()
-    .AddDefaultTokenProviders(); // Email doðrulama için token oluþturma
+    .AddDefaultTokenProviders(); // Email doðrulama & þifre sýfýrlama için token oluþturma
 
 builder.Services.Configure<IdentityOptions>(opt =>
 {

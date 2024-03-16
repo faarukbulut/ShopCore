@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Razor.Language.Intermediate;
 using WebUI.Models;
 using WebUI.Repositories.Abstract;
 
@@ -44,7 +45,12 @@ namespace WebUI.Controllers
                 var tokenCode = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 var callbackurl = Url.Action("ConfirmEmail", "Account", new { userID = user.Id, token = tokenCode }, HttpContext.Request.Scheme);
 
-                _mailRepository.MailDogrulamaMailGonder(p.FullName, p.Email, callbackurl);
+                _mailRepository.MailGonder(
+                    p.FullName,
+                    p.Email,
+                    $"Hesabınızı doğrulamak için <a href='{callbackurl}'>buraya tıklayınız.</a>",
+                    "Hesap Doğrulama"
+                );
 
                 return RedirectToAction("Login", "Account");
             }
@@ -123,6 +129,71 @@ namespace WebUI.Controllers
             return View();
         }
 
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword(string Email)
+        {
+            if (string.IsNullOrEmpty(Email))
+            {
+                return View();
+            }
+
+            var user = await _userManager.FindByEmailAsync(Email);
+
+            if(user == null)
+            {
+                return View();
+            }
+
+            var tokenCode = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var callbackurl = Url.Action("ResetPassword", "Account", new { userID = user.Id, token = tokenCode }, HttpContext.Request.Scheme);
+
+            _mailRepository.MailGonder(
+                user.FullName,
+                Email,
+                $"Şifrenizi yenilemek için <a href='{callbackurl}'>buraya tıklayınız.</a>",
+                "Şifre Sıfırlama"
+            );
+
+            return RedirectToAction("Login", "Account");
+        }
+
+        public IActionResult ResetPassword(string userID, string token)
+        {
+            if (string.IsNullOrEmpty(userID) || string.IsNullOrEmpty(token))
+            {
+                return RedirectToAction("Index", "Default");
+            }
+
+            var model = new ResetPasswordModel { Token = token, UserID = userID};
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPasswordModel p)
+        {
+            var user = await _userManager.FindByIdAsync(p.UserID);
+
+            if(user == null)
+            {
+                return RedirectToAction("Index", "Default");
+            }
+
+            var result = await _userManager.ResetPasswordAsync(user, p.Token, p.Password);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            return View(p);
+        }
 
     }
 }
