@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Microsoft.AspNetCore.Mvc;
+using X.PagedList;
 
 namespace WebUI.Controllers
 {
@@ -12,17 +13,17 @@ namespace WebUI.Controllers
             _productService = productService;
         }
 
-        public IActionResult List(int id)
+        public IActionResult List(int id, int page = 1)
         {
             if(id == 0)
             {
                 var values = _productService.GetAll();
-                return View(values);
+                return View(values.ToPagedList(page, 2));
             }
             else
             {
                 var values = _productService.GetProductsByCategory(id);
-                return View(values);
+                return View(values.ToPagedList(page, 2));
             }
         }
 
