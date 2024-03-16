@@ -3,6 +3,7 @@ using Business.Concrete;
 using DataAccess.Concrete;
 using DataAccess.Repositories.Abstract;
 using DataAccess.Repositories.Concrete;
+using WebUI.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
@@ -29,12 +30,14 @@ var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
+    app.UseExceptionHandler("/Default/Error");
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.CustomStaticFiles();
 
 app.UseRouting();
 
@@ -42,6 +45,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Default}/{action=Index}/{id?}");
 
 app.Run();
