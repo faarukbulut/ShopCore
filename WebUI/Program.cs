@@ -3,6 +3,8 @@ using Business.Concrete;
 using DataAccess.Concrete;
 using DataAccess.Repositories.Abstract;
 using DataAccess.Repositories.Concrete;
+using Entities.Concrete;
+using Microsoft.AspNetCore.Identity;
 using WebUI.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +12,7 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 builder.Services.AddMvc();
 builder.Services.AddDbContext<Context>();
-
+builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<Context>();
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepositoy>();
 builder.Services.AddScoped<ICategoryService, CategoryManager>();
@@ -40,7 +42,7 @@ app.UseStaticFiles();
 app.CustomStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
