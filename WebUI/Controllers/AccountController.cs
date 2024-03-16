@@ -44,5 +44,31 @@ namespace WebUI.Controllers
             ModelState.AddModelError("", "Kayıt sırasında hata oluştu. Lütfen tekrar deneyiniz.");
             return View(p);
         }
+
+        public IActionResult Login()
+        {
+            return View(new LoginModel());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginModel p)
+        {
+            var user = await _userManager.FindByNameAsync(p.Username);
+
+            if(user != null)
+            {
+                var result = await _signInManager.PasswordSignInAsync(p.Username, p.Password, false, false);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Default");
+                }
+            }
+
+            ModelState.AddModelError("", "Giriş işlemi başarısız");
+            return View(p);
+        }
+
     }
 }
