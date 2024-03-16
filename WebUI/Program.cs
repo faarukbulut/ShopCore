@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using WebUI.Middlewares;
+using WebUI.Repositories.Abstract;
+using WebUI.Repositories.Concrete;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
@@ -21,7 +23,10 @@ builder.Services.AddMvc(config =>
 builder.Services.AddMvc();
 builder.Services.AddDbContext<Context>();
 
-builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<Context>();
+builder.Services.AddIdentity<AppUser, IdentityRole>()
+    .AddEntityFrameworkStores<Context>()
+    .AddDefaultTokenProviders(); // Email doðrulama için token oluþturma
+
 builder.Services.Configure<IdentityOptions>(opt =>
 {
     opt.Password.RequireDigit = false; // Þifrelerde sayýsal deðer zorunluluðu
@@ -57,6 +62,9 @@ builder.Services.ConfigureApplicationCookie(opt =>
 
 });
 
+builder.Services.AddScoped<IMailRepository, MailRepository>();
+
+//
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepositoy>();
 builder.Services.AddScoped<ICategoryService, CategoryManager>();

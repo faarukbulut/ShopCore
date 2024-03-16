@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebUI.Models;
+using WebUI.Repositories.Abstract;
 
 namespace WebUI.Controllers
 {
@@ -11,11 +12,13 @@ namespace WebUI.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly IMailRepository _mailRepository;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IMailRepository mailRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _mailRepository = mailRepository;
         }
 
         public IActionResult Register()
@@ -39,7 +42,9 @@ namespace WebUI.Controllers
             if (result.Succeeded)
             {
                 var tokenCode = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                var callbackurl = Url.Action("ConfirmEmail", "Account", new { userID = user.Id, token = tokenCode });
+                var callbackurl = Url.Action("ConfirmEmail", "Account", new { userID = user.Id, token = tokenCode }, HttpContext.Request.Scheme);
+
+                _mailRepository.MailDogrulamaMailGonder(p.FullName, p.Email, callbackurl);
 
                 return RedirectToAction("Login", "Account");
             }
@@ -59,7 +64,12 @@ namespace WebUI.Controllers
         {
             var user = await _userManager.FindByNameAsync(p.Username);
 
-            if(user != null)
+            if(user == null)
+            {
+                ModelState.AddModelError("", "Giriş işlemi başarısız");
+                return View(p);
+            }
+            else
             {
                 if (!await _userManager.IsEmailConfirmedAsync(user))
                 {
@@ -73,10 +83,12 @@ namespace WebUI.Controllers
                 {
                     return RedirectToAction("Index", "Default");
                 }
+                else
+                {
+                    ModelState.AddModelError("", "Giriş işlemi başarısız");
+                    return View(p);
+                }
             }
-
-            ModelState.AddModelError("", "Giriş işlemi başarısız");
-            return View(p);
         }
 
         public async Task<IActionResult> Logout()
