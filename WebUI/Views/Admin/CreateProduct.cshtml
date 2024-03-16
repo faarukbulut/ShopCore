@@ -1,0 +1,60 @@
+﻿@model Product
+@{
+    ViewData["Title"] = "CreateProduct";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>CreateProduct</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-8">
+        <form method="post" asp-controller="Admin" asp-action="CreateProduct">
+            @Html.AntiForgeryToken()
+
+            <div class="form-group-row">
+                <label class="col-md-2 col-form-label">Product Name</label>
+                <div class="col-md-10">
+                    <input type="text" asp-for="Name" class="form-control" required />
+                </div>
+            </div>
+
+            <div class="form-group-row">
+                <label class="col-md-2 col-form-label">Image Url</label>
+                <div class="col-md-10">
+                    <input type="text" asp-for="ImageUrl" class="form-control" required />
+                </div>
+            </div>
+
+            <div class="form-group-row">
+                <label class="col-md-2 col-form-label">Price</label>
+                <div class="col-md-10">
+                    <input type="text" asp-for="Price" class="form-control" required />
+                </div>
+            </div>
+
+            <div class="form-group-row">
+                <label class="col-md-2 col-form-label">Description</label>
+                <div class="col-md-10">
+                    <textarea id="editor" asp-for="Description" class="form-control" required /></textarea>
+                </div>
+            </div>
+
+            <div class="form-group-row">
+                <label class="col-md-2 col-form-label">Category</label>
+                <div class="col-md-10">
+                    <input type="text" asp-for="CategoryID" class="form-control" required />
+                </div>
+            </div>
+
+            <div class="form-group-row">
+                <div class="col-md-2 col-form-label">
+                    <button type="submit" class="btn btn-primary">Create Product</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
