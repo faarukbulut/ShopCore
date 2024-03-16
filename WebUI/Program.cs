@@ -12,7 +12,42 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 builder.Services.AddMvc();
 builder.Services.AddDbContext<Context>();
+
 builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<Context>();
+builder.Services.Configure<IdentityOptions>(opt =>
+{
+    opt.Password.RequireDigit = false; // Þifrelerde sayýsal deðer zorunluluðu
+    opt.Password.RequireLowercase = false; // Þifrelerde küçük harf zorunluluðu
+    opt.Password.RequiredLength = 6; // Þifrelerde minimum karakter sayýsý
+    opt.Password.RequireNonAlphanumeric = false; // Þifrelerde alfa numeric zorunluluðu
+    opt.Password.RequireUppercase = false; // Þifrelerde büyük harf zorunluluðu
+
+    opt.Lockout.MaxFailedAccessAttempts = 5; // Kullanýcýnýn kaç defa baþarýsýz giriþ yapacaðý
+    opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); // Toplam baþarýsýz iþlem sonrasý hesap kilit süresi
+    opt.Lockout.AllowedForNewUsers = true; // Yeni kullanýcýlar için kilit iþlem durumu
+
+    opt.User.RequireUniqueEmail = true; // Benzersiz bir mail adresi zorunluluðu
+
+    opt.SignIn.RequireConfirmedPhoneNumber = false; // Telefon numrasý onay zorunluluðu
+    opt.SignIn.RequireConfirmedEmail = false; // Mail onay zorunluluðu
+});
+
+builder.Services.ConfigureApplicationCookie(opt =>
+{
+    opt.LoginPath = "/Account/Login";
+    opt.LogoutPath = "/Account/Logout";
+    opt.AccessDeniedPath = "/Account/AccessDenied";
+    opt.ExpireTimeSpan = TimeSpan.FromHours(1); // Cookie saklama süresi
+    opt.SlidingExpiration = true; // giriþ yapýlan süreyi her istek yapýldýðýnda tekrar arttýr.
+
+    opt.Cookie = new CookieBuilder
+    {
+        HttpOnly = true, // cookielerin scriptler tarafýndan okunmamasýný sadece http ile okunmasý saðlar. Güvenlik için önemlidir.
+        Name = ".ShopApp.Security.Cookie"
+    };
+
+});
+
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepositoy>();
 builder.Services.AddScoped<ICategoryService, CategoryManager>();
