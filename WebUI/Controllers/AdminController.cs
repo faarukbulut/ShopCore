@@ -49,5 +49,13 @@ namespace WebUI.Controllers
             _productService.Update(p);
             return RedirectToAction("Products");
         }
+
+        public IActionResult DeleteProduct(int id)
+        {
+            var value = _productService.GetByID(id);
+            _productService.Delete(value);
+            return RedirectToAction("Products");
+        }
+
     }
 }
