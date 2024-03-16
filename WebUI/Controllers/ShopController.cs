@@ -1,9 +1,11 @@
 ﻿using Business.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using X.PagedList;
 
 namespace WebUI.Controllers
 {
+    [AllowAnonymous]
     public class ShopController : Controller
     {
         private readonly IProductService _productService;
