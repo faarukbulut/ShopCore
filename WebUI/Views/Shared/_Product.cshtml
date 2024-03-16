@@ -4,7 +4,7 @@
     <div class="card mb-3">
         <img src="~/img/products/@Model.ImageUrl" alt="@Model.Name" style="width:100%; height:250px; object-fit:cover"/>
         <div class="card-body">
-            <h4 class="card-title"><a href="#">@Model.Name</a></h4>
+            <h4 class="card-title"><a href="/Shop/Details/@Model.ProductID" class="text-decoration-none text-black">@Model.Name</a></h4>
             <small class="text-muted">₺@Model.Price</small>
         </div>
         <div class="card-footer text-center">

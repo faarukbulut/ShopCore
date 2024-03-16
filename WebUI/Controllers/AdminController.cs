@@ -7,10 +7,12 @@ namespace WebUI.Controllers
     public class AdminController : Controller
     {
         private readonly IProductService _productService;
+        private readonly ICategoryService _categoryService;
 
-        public AdminController(IProductService productService)
+        public AdminController(IProductService productService, ICategoryService categoryService)
         {
             _productService = productService;
+            _categoryService = categoryService;
         }
 
         public IActionResult Products()
@@ -21,6 +23,7 @@ namespace WebUI.Controllers
 
         public IActionResult CreateProduct()
         {
+            ViewBag.Categories = _categoryService.GetAll();
             return View();
         }
 

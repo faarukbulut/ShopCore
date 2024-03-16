@@ -43,7 +43,12 @@
             <div class="form-group-row">
                 <label class="col-md-2 col-form-label">Category</label>
                 <div class="col-md-10">
-                    <input type="text" asp-for="CategoryID" class="form-control" required />
+                    <select asp-for="CategoryID" class="form-control">
+                        @foreach (var category in ViewBag.Categories)
+                        {
+                            <option value="@category.CategoryID">@category.Name</option>
+                        }
+                    </select>
                 </div>
             </div>
 
