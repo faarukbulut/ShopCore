@@ -58,7 +58,7 @@ namespace WebUI.Controllers
 
             if(user != null)
             {
-                var result = await _signInManager.PasswordSignInAsync(p.Username, p.Password, false, false);
+                var result = await _signInManager.PasswordSignInAsync(p.Username, p.Password, true, false);
 
                 if (result.Succeeded)
                 {
@@ -70,5 +70,10 @@ namespace WebUI.Controllers
             return View(p);
         }
 
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Default");
+        }
     }
 }
