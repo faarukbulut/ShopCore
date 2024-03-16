@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Packaging.Signing;
 
 namespace WebUI.Controllers
 {
@@ -29,9 +30,20 @@ namespace WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateProduct(Product p)
+        public async Task<IActionResult> CreateProduct(Product p, IFormFile file)
         {
-            _productService.Create(p);
+            if (file != null)
+            {
+                var extension = Path.GetExtension(file.FileName);
+                var newimagename = Guid.NewGuid() + extension;
+                var location = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/products/", newimagename);
+                var stream = new FileStream(location, FileMode.Create);
+                await file.CopyToAsync(stream);
+
+                p.ImageUrl = newimagename;
+                _productService.Create(p);
+            }
+
             return RedirectToAction("Products");
         }
 
@@ -44,10 +56,24 @@ namespace WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult UpdateProduct(Product p)
+        public async Task<IActionResult> UpdateProduct(Product p, IFormFile file)
         {
-            _productService.Update(p);
-            return RedirectToAction("Products");
+            if(file != null)
+            {
+                var extension = Path.GetExtension(file.FileName);
+                var newimagename = Guid.NewGuid() + extension;
+                var location = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/products/", newimagename);
+                var stream = new FileStream(location, FileMode.Create);
+                await file.CopyToAsync(stream);
+
+                p.ImageUrl = newimagename;
+
+                _productService.Update(p);
+                return RedirectToAction("Products");
+            }
+
+            ViewBag.Categories = _categoryService.GetAll();
+            return View(p);
         }
 
         public IActionResult DeleteProduct(int id)

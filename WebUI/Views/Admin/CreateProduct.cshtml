@@ -9,7 +9,7 @@
 
 <div class="row">
     <div class="col-md-8">
-        <form method="post" asp-controller="Admin" asp-action="CreateProduct">
+        <form method="post" asp-controller="Admin" asp-action="CreateProduct" enctype="multipart/form-data">
             @Html.AntiForgeryToken()
 
             <div class="form-group-row">
@@ -20,9 +20,9 @@
             </div>
 
             <div class="form-group-row">
-                <label class="col-md-2 col-form-label">Image Url</label>
+                <label class="col-md-2 col-form-label">Image</label>
                 <div class="col-md-10">
-                    <input type="text" asp-for="ImageUrl" class="form-control" required />
+                    <input type="file" name="file" class="form-control" required />
                 </div>
             </div>
 
@@ -36,7 +36,7 @@
             <div class="form-group-row">
                 <label class="col-md-2 col-form-label">Description</label>
                 <div class="col-md-10">
-                    <textarea id="editor" asp-for="Description" class="form-control" required /></textarea>
+                    <textarea id="editor" rows="10" asp-for="Description" class="form-control" required></textarea>
                 </div>
             </div>
 
