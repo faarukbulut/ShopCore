@@ -34,5 +34,20 @@ namespace WebUI.Controllers
             _productService.Create(p);
             return RedirectToAction("Products");
         }
+
+        public IActionResult UpdateProduct(int id)
+        {
+            ViewBag.Categories = _categoryService.GetAll();
+            var value = _productService.GetByID(id);
+            return View(value);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdateProduct(Product p)
+        {
+            _productService.Update(p);
+            return RedirectToAction("Products");
+        }
     }
 }
