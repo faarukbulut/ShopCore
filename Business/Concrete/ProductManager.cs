@@ -42,5 +42,10 @@ namespace Business.Concrete
         {
             return _productRepository.GetProductDetails(id);
         }
+
+        public List<Product> GetProductsByCategory(int categoryId)
+        {
+            return _productRepository.GetProductsByCategory(categoryId);
+        }
     }
 }

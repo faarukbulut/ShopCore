@@ -18,5 +18,10 @@ namespace DataAccess.Repositories.Concrete
         {
             return _context.Products.Where(x => x.ProductID == id).Include(x => x.Category).FirstOrDefault();
         }
+
+        public List<Product> GetProductsByCategory(int categoryId)
+        {
+            return _context.Products.Where(x => x.CategoryID == categoryId).ToList();
+        }
     }
 }

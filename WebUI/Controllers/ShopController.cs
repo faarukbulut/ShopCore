@@ -12,10 +12,18 @@ namespace WebUI.Controllers
             _productService = productService;
         }
 
-        public IActionResult List()
+        public IActionResult List(int id)
         {
-            var values = _productService.GetAll();
-            return View(values);
+            if(id == 0)
+            {
+                var values = _productService.GetAll();
+                return View(values);
+            }
+            else
+            {
+                var values = _productService.GetProductsByCategory(id);
+                return View(values);
+            }
         }
 
         public IActionResult Details(int id)

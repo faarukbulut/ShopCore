@@ -3,6 +3,6 @@
 <ul class="list-group">
     @foreach(var item in Model)
     {
-        <li class="list-group-item">@item.Name</li>
+        <li class="list-group-item"><a href="/Shop/List/@item.CategoryID" class="text-decoration-none text-black">@item.Name</a></li>
     }
 </ul>
