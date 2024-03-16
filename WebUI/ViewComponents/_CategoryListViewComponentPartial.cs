@@ -12,8 +12,9 @@ namespace WebUI.ViewComponents
             _categoryService = categoryService;
         }
 
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(int id)
         {
+            ViewBag.categoryID = id;
             var values = _categoryService.GetAll();
             return View(values);
         }

@@ -1,8 +1,8 @@
 ﻿@model List<Category>
 
-<ul class="list-group">
-    @foreach(var item in Model)
+<div class="list-group">
+    @foreach (var item in Model)
     {
-        <li class="list-group-item"><a href="/Shop/List/@item.CategoryID" class="text-decoration-none text-black">@item.Name</a></li>
+        <a class="list-group-item list-group-item-action @(ViewBag.categoryID == item.CategoryID ? "active" : "")" href="/Shop/List/@item.CategoryID">@item.Name</a>
     }
-</ul>
+</div>

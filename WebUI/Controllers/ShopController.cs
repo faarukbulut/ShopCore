@@ -15,15 +15,16 @@ namespace WebUI.Controllers
 
         public IActionResult List(int id, int page = 1)
         {
+            ViewBag.categoryID = id;
             if(id == 0)
             {
                 var values = _productService.GetAll();
-                return View(values.ToPagedList(page, 2));
+                return View(values.ToPagedList(page, 10));
             }
             else
             {
                 var values = _productService.GetProductsByCategory(id);
-                return View(values.ToPagedList(page, 2));
+                return View(values.ToPagedList(page, 10));
             }
         }
 
