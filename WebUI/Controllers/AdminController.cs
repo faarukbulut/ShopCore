@@ -13,6 +13,12 @@ namespace WebUI.Controllers
             _productService = productService;
         }
 
+        public IActionResult Products()
+        {
+            var values = _productService.GetAll();
+            return View(values);
+        }
+
         public IActionResult CreateProduct()
         {
             return View();
@@ -23,7 +29,7 @@ namespace WebUI.Controllers
         public IActionResult CreateProduct(Product p)
         {
             _productService.Create(p);
-            return RedirectToAction("List", "Shop");
+            return RedirectToAction("Products");
         }
     }
 }
