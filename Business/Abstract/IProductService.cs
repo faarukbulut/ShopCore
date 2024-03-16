@@ -4,5 +4,6 @@ namespace Business.Abstract
 {
     public interface IProductService : IGenericService<Product>
     {
+        Product GetProductDetails(int id);
     }
 }

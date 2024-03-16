@@ -25,7 +25,7 @@ namespace WebUI.Controllers
                 return NotFound();
             }
 
-            var value = _productService.GetByID(id);
+            var value = _productService.GetProductDetails(id);
 
             if(value == null)
             {

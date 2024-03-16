@@ -37,5 +37,10 @@ namespace Business.Concrete
         {
             _productRepository.Update(entity);
         }
+
+        public Product GetProductDetails(int id)
+        {
+            return _productRepository.GetProductDetails(id);
+        }
     }
 }
