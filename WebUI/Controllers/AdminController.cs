@@ -57,5 +57,55 @@ namespace WebUI.Controllers
             return RedirectToAction("Products");
         }
 
+        public IActionResult Categories()
+        {
+            var values = _categoryService.GetAll();
+            return View(values);
+        }
+
+        public IActionResult CreateCategory()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateCategory(Category p)
+        {
+            _categoryService.Create(p);
+            return RedirectToAction("Categories");
+        }
+
+        public IActionResult UpdateCategory(int id)
+        {
+            var value = _categoryService.GetByID(id);
+            return View(value);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdateCategory(Category p)
+        {
+            _categoryService.Update(p);
+            return RedirectToAction("Categories");
+        }
+
+        public IActionResult DeleteCategory(int id)
+        {
+            var productCategoryValue = _productService.GetProductsByCategory(id);
+
+            if(productCategoryValue.Count() > 0)
+            {
+                TempData["CannotDeleteCategory"] = "It cannot be deleted because there is a product belonging to this category.";
+                return RedirectToAction("Categories");
+            }
+            else
+            {
+                var value = _categoryService.GetByID(id);
+                _categoryService.Delete(value);
+                return RedirectToAction("Categories");
+            }
+        }
+
     }
 }
