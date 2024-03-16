@@ -1,6 +1,6 @@
 ﻿@model List<Product>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -13,7 +13,6 @@
         </ul>
     </div>
     <div class="col-md-9">
-        <partial name="_Slider" />
 
         <div class="row">
             @foreach (var product in Model)
@@ -23,6 +22,3 @@
         </div>
     </div>
 </div>
-
-
-
