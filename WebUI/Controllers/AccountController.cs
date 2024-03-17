@@ -1,14 +1,11 @@
 ﻿using Entities.Concrete;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Razor.Language.Intermediate;
 using WebUI.Models;
 using WebUI.Repositories.Abstract;
 
 namespace WebUI.Controllers
 {
-    [AllowAnonymous]
     public class AccountController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
@@ -195,5 +192,9 @@ namespace WebUI.Controllers
             return View(p);
         }
 
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
     }
 }

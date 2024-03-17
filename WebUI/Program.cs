@@ -14,12 +14,6 @@ using WebUI.Repositories.Concrete;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
-builder.Services.AddMvc(config =>
-{
-    var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-    config.Filters.Add(new AuthorizeFilter(policy));
-});
-
 builder.Services.AddMvc();
 builder.Services.AddDbContext<Context>();
 

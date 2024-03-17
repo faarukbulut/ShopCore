@@ -1,10 +1,8 @@
 ﻿using Business.Abstract;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebUI.Controllers
 {
-    [AllowAnonymous]
     public class DefaultController : Controller
     {
         private readonly IProductService _productService;

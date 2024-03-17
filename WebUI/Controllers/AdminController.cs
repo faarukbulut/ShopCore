@@ -1,10 +1,11 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NuGet.Packaging.Signing;
 
 namespace WebUI.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
         private readonly IProductService _productService;
