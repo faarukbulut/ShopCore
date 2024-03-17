@@ -43,5 +43,9 @@ namespace WebUI.Controllers
             return RedirectToAction("Index", "Cart");
         }
 
+        public IActionResult Checkout()
+        {
+            return View();
+        }
     }
 }
