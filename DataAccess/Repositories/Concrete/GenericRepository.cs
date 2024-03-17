@@ -40,7 +40,7 @@ namespace DataAccess.Repositories.Concrete
             return _context.Set<T>().Where(filter).SingleOrDefault();
         }
 
-        public void Update(T entity)
+        public virtual void Update(T entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
             _context.SaveChanges();

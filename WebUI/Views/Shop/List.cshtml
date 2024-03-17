@@ -13,6 +13,7 @@
     <div class="col-md-9">
 
         <div class="row">
+            @Html.AntiForgeryToken()
             @foreach (var product in Model)
             {
                 <partial name="_Product" for="@product" />

@@ -18,8 +18,8 @@ builder.Services.AddMvc();
 builder.Services.AddDbContext<Context>();
 
 builder.Services.AddIdentity<AppUser, IdentityRole>()
-    .AddEntityFrameworkStores<Context>()
-    .AddDefaultTokenProviders(); // Email doðrulama & þifre sýfýrlama için token oluþturma
+    .AddEntityFrameworkStores<Context>();
+    //.AddDefaultTokenProviders(); // Email doðrulama & þifre sýfýrlama için token oluþturma
 
 builder.Services.Configure<IdentityOptions>(opt =>
 {
@@ -36,7 +36,7 @@ builder.Services.Configure<IdentityOptions>(opt =>
     opt.User.RequireUniqueEmail = true; // Benzersiz bir mail adresi zorunluluðu
 
     opt.SignIn.RequireConfirmedPhoneNumber = false; // Telefon numrasý onay zorunluluðu
-    opt.SignIn.RequireConfirmedEmail = true; // Mail onay zorunluluðu
+    opt.SignIn.RequireConfirmedEmail = false; // Mail onay zorunluluðu
 });
 
 builder.Services.ConfigureApplicationCookie(opt =>
@@ -72,7 +72,8 @@ builder.Services.AddScoped<IOrderService, OrderManager>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductManager>();
 
-
+builder.Services.AddScoped<ICartRepository, CartRepository>();
+builder.Services.AddScoped<ICartService, CartManager>();
 
 var app = builder.Build();
 

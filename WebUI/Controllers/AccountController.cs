@@ -1,4 +1,5 @@
-﻿using Entities.Concrete;
+﻿using Business.Abstract;
+using Entities.Concrete;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebUI.Models;
@@ -11,12 +12,14 @@ namespace WebUI.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IMailRepository _mailRepository;
+        private readonly ICartService _cartService;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IMailRepository mailRepository)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IMailRepository mailRepository, ICartService cartService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _mailRepository = mailRepository;
+            _cartService = cartService;
         }
 
         public IActionResult Register()
@@ -39,15 +42,17 @@ namespace WebUI.Controllers
 
             if (result.Succeeded)
             {
-                var tokenCode = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                var callbackurl = Url.Action("ConfirmEmail", "Account", new { userID = user.Id, token = tokenCode }, HttpContext.Request.Scheme);
+                _cartService.Initialize(user.Id);
 
-                _mailRepository.MailGonder(
-                    p.FullName,
-                    p.Email,
-                    $"Hesabınızı doğrulamak için <a href='{callbackurl}'>buraya tıklayınız.</a>",
-                    "Hesap Doğrulama"
-                );
+                //var tokenCode = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                //var callbackurl = Url.Action("ConfirmEmail", "Account", new { userID = user.Id, token = tokenCode }, HttpContext.Request.Scheme);
+
+                //_mailRepository.MailGonder(
+                //    p.FullName,
+                //    p.Email,
+                //    $"Hesabınızı doğrulamak için <a href='{callbackurl}'>buraya tıklayınız.</a>",
+                //    "Hesap Doğrulama"
+                //);
 
                 return RedirectToAction("Login", "Account");
             }
@@ -74,11 +79,11 @@ namespace WebUI.Controllers
             }
             else
             {
-                if (!await _userManager.IsEmailConfirmedAsync(user))
-                {
-                    ModelState.AddModelError("", "Lütfen hesabınızı mail ile onaylayınız.");
-                    return View(p);
-                }
+                //if (!await _userManager.IsEmailConfirmedAsync(user))
+                //{
+                //    ModelState.AddModelError("", "Lütfen hesabınızı mail ile onaylayınız.");
+                //    return View(p);
+                //}
 
                 var result = await _signInManager.PasswordSignInAsync(p.Username, p.Password, true, false);
 
