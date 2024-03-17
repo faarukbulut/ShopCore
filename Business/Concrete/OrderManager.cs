@@ -17,5 +17,10 @@ namespace Business.Concrete
         {
             _orderRepository.Create(order);
         }
+
+        public List<Order> GetOrders(string? userId)
+        {
+            return _orderRepository.GetOrders(userId);
+        }
     }
 }

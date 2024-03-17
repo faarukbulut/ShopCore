@@ -1,0 +1,39 @@
+﻿@model List<Order>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Orders</h1>
+<hr />
+
+@foreach(var order in Model)
+{
+    <table class="table table-bordered table-sm mb-3">
+        <thead>
+            <tr>
+                <td colspan="2">Order Number: #@order.OrderNumber</td>
+                <td>Price</td>
+                <td>Quantity:</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in order.OrderItems)
+            {
+                <tr>
+                    <td><img src="~/img/products/@item.Product.ImageUrl" width="50" /></td>
+                    <td>@item.Product.Name</td>
+                    <td>@item.Price</td>
+                    <td>@item.Quantity</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">Customer Name: </td>
+                <td colspan="2">@order.OrderNote</td>
+            </tr>
+        </tfoot>
+    </table>
+}
+
