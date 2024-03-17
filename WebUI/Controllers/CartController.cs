@@ -45,7 +45,9 @@ namespace WebUI.Controllers
 
         public IActionResult Checkout()
         {
-            return View();
+            var userId = _userManager.GetUserId(User);
+            var values = _cartService.GetCartByUserId(userId);
+            return View(values);
         }
     }
 }
