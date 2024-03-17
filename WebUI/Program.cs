@@ -4,9 +4,7 @@ using DataAccess.Concrete;
 using DataAccess.Repositories.Abstract;
 using DataAccess.Repositories.Concrete;
 using Entities.Concrete;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using WebUI.Middlewares;
 using WebUI.Repositories.Abstract;
 using WebUI.Repositories.Concrete;
@@ -62,9 +60,6 @@ builder.Services.AddScoped<IMailRepository, MailRepository>();
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepositoy>();
 builder.Services.AddScoped<ICategoryService, CategoryManager>();
-
-builder.Services.AddScoped<IOrderLineRepository, OrderLineRepository>();
-builder.Services.AddScoped<IOrderLineService, OrderLineManager>();
 
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderService, OrderManager>();

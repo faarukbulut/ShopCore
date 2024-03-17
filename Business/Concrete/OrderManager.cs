@@ -13,29 +13,9 @@ namespace Business.Concrete
             _orderRepository = orderRepository;
         }
 
-        public void Create(Order entity)
+        public void Create(Order order)
         {
-            _orderRepository.Create(entity);
-        }
-
-        public void Delete(Order entity)
-        {
-            _orderRepository.Delete(entity);
-        }
-
-        public List<Order> GetAll()
-        {
-            return _orderRepository.GetAll().ToList();
-        }
-
-        public Order GetByID(int id)
-        {
-            return _orderRepository.GetByID(id);
-        }
-
-        public void Update(Order entity)
-        {
-            _orderRepository.Update(entity);
+            _orderRepository.Create(order);
         }
     }
 }

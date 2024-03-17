@@ -7,45 +7,43 @@
 <h1>Checkout</h1>
 <hr />
 
+@TempData["test"]
+
 <div class="row">
     <div class="col-md-8">
-        <h4 class="mb-3">Payment Method</h4>
-        <form action="/" method="post">
+        <form asp-controller="Cart" asp-action="Checkout" method="post">
+            @Html.AntiForgeryToken()
+
+            <h4 class="mb-3">Order Detail</h4>
+            <label>Order Note</label>
+            <textarea class="form-control" rows="5" name="orderNote"></textarea>
+
+            <h4 class="mt-3 mb-3">Payment Method</h4>
             <div class="d-block my-3">
                 <div class="custom-control custom-radio">
-                    <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked />
-                    <label class="custom-control-label" for="credit">Credit Cart</label>
+                    <input id="creditpayment" name="paymentMethod" value="0" type="radio" class="custom-control-input" checked />
+                    <label class="custom-control-label" for="creditpayment">Credit Cart</label>
                 </div>
                 <div class="custom-control custom-radio">
-                    <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required />
-                    <label class="custom-control-label" for="eft">EFT</label>
+                    <input id="eftpayment" name="paymentMethod" value="1" type="radio" class="custom-control-input" required />
+                    <label class="custom-control-label" for="eftpayment">EFT</label>
                 </div>
             </div>
-            <h4 class="mb-3">Payment</h4>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label>Name on Credit Card</label>
-                    <input type="text" name="cardname" class="form-control" />
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label>Credit Card Number</label>
-                    <input type="text" name="cardnumber" class="form-control" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4 mb-3">
-                    <label>Month</label>
-                    <input type="text" name="month" class="form-control" />
-                </div>
-                <div class="col-md-4 mb-3">
-                    <label>Year</label>
-                    <input type="text" name="year" class="form-control" />
-                </div>
-                <div class="col-md-4 mb-3">
-                    <label>CVV</label>
-                    <input type="text" name="cvv" class="form-control" />
+
+            <div id="eftArea">
+                <h4 class="mb-3">EFT Payment</h4>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label>Name Surname</label>
+                        <input type="text" name="senderName" class="form-control" />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label>Date</label>
+                        <input type="text" name="sendDate" class="form-control" />
+                    </div>
                 </div>
             </div>
+
             <button type="submit" class="btn btn-primary btn-lg btn-block">Complete Order</button>
         </form>
     </div>
@@ -71,3 +69,37 @@
         </ul>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var creditRadio = document.getElementById("creditpayment");
+        var eftRadio = document.getElementById("eftpayment");
+        var eftArea = document.getElementById("eftArea");
+        var eftInputs = eftArea.querySelectorAll("input[type='text']");
+    
+        checkEftAreaValidity();
+    
+        creditRadio.addEventListener("change", function () {
+            checkEftAreaValidity();
+        });
+    
+        eftRadio.addEventListener("change", function () {
+            checkEftAreaValidity();
+        });
+    
+        function checkEftAreaValidity() {
+            if (eftRadio.checked) {
+                eftArea.style.display = "block";
+                eftInputs.forEach(function (input) {
+                    input.setAttribute("required", "");
+                });
+            } else {
+                eftArea.style.display = "none";
+                eftInputs.forEach(function (input) {
+                    input.removeAttribute("required");
+                });
+            }
+        }
+    });
+</script>
+
