@@ -62,7 +62,7 @@ namespace WebUI.Controllers
             var cart = _cartService.GetCartByUserId(userId);
 
             SaveOrder(cart, paymentMethod, orderNote, senderName, sendDate);
-            ClearCart(cart.UserId);
+            ClearCart(cart.CartID);
 
             if (paymentMethod == 0){
                 // kredi kartı ödemesi için aracı ödeme şirketlerine yönelik işlemler yaptırılabilir.
@@ -99,9 +99,9 @@ namespace WebUI.Controllers
             _orderService.Create(order);
         }
 
-        private void ClearCart(string userId)
+        private void ClearCart(int cartID)
         {
-
+            _cartService.ClearCart(cartID);
         }
 
         public IActionResult PaymentSuccess()

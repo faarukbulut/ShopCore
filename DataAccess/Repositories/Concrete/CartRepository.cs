@@ -31,5 +31,12 @@ namespace DataAccess.Repositories.Concrete
             _context.CartItems.Remove(value);
             _context.SaveChanges();
         }
+
+        public void ClearCart(int cartID)
+        {
+            var itemsToRemove = _context.CartItems.Where(x => x.CartID == cartID).ToList();
+            _context.CartItems.RemoveRange(itemsToRemove);
+            _context.SaveChanges();
+        }
     }
 }

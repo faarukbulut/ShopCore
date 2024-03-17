@@ -6,5 +6,6 @@ namespace DataAccess.Repositories.Abstract
     {
         Cart GetByUserID(string userId);
         void DeleteFromCart(int cartID, int productID);
+        void ClearCart(int cartID);
     }
 }
